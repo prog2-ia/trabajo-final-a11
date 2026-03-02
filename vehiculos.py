@@ -32,7 +32,7 @@ class Vehiculo:
                 self.revision = True
 
     def realizar_revision(self):
-        if self.revision = True:
+        if self.revision == True:
             self.revison= False
             print('Revisioón realizada correctamente')
         else:
