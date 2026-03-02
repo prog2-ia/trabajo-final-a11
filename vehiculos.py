@@ -5,6 +5,8 @@ class Vehiculo:
         #Tarifa estándar de lo que cuesta el alquiler de vehículo
         self.precio_base_dia = precio_base_dia
         self.kilometraje_actual = 0
+        self.km_ultima_revision = 0
+        self.disponible = True
 
     def calcular_Tarifa(self,dias):
         tarifa = self.precio_base_dia * dias
