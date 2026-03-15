@@ -21,11 +21,23 @@ class Reserva:
     def calcular_dias(self):
         diferencia = self.fecha_fin - self.fecha_inicio
         return diferencia.days
+
     '''En este método calculamos el coste total de la reserva'''
     def calcular_precio_total(self):
         dias = self.calcular_dias()
-        '''aquí llamamos al método de vehículo'''
-        return self.vehiculo.calcular_Tarifa(dias)
+        # Obtenemos la tarifa base desde el objeto vehículo
+        precio_base = self.vehiculo.calcular_Tarifa(dias)
+
+        # --- LÓGICA DE DESCUENTOS POR DURACIÓN ---
+        porcentaje_descuento = 0
+
+        if dias >= 30:
+            porcentaje_descuento = 0.25  # 25% de descuento
+        elif dias >= 7:
+            porcentaje_descuento = 0.10  # 10% de descuento
+
+        precio_final = precio_base * (1 - porcentaje_descuento)
+        return round(precio_final, 2)  # Redondeamos a 2 decimales
 
     def generar_contrato_txt(self):
         nombre_archivo = f"contrato_{self.id_reserva}.txt"
@@ -47,12 +59,7 @@ class Reserva:
         print(f"Contrato generado: {nombre_archivo}")
 
 
-class ReservaGrupal(Reserva):
-    def calcular_precio_total(self):
-        precio_original = super().calcular_precio_total()
-        # Aquí aplicamos un descuento de 10% para reservas en grupo
-        precio_con_descuento = precio_original * 0.90
-        return precio_con_descuento
+
 
 
 
