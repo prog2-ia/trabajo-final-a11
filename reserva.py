@@ -26,7 +26,7 @@ class Reserva:
     def calcular_precio_total(self):
         dias = self.calcular_dias()
         # Obtenemos la tarifa base desde el objeto vehículo
-        precio_base = self.vehiculo.calcular_Tarifa(dias)
+        precio_base = self.vehiculo.calcular_tarifa(dias)
 
         porcentaje_descuento = 0
 

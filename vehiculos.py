@@ -18,7 +18,7 @@ class Vehiculo(ABC):
     def matricula(self):
         return self.__matricula
 
-    def calcular_Tarifa(self,dias):
+    def calcular_tarifa(self,dias):
         tarifa = self.precio_base_dia * dias
         return tarifa
 
@@ -53,8 +53,8 @@ class Turismo(Vehiculo):
         super().__init__(matricula,precio_base_dia)
         self.num_plazas = num_plazas # Aquí ponemos una futura restricción para que si pide un coche de 7 plazas no darle una de 5
     # tarifa distinta, aquí vamos a cobrar más por cada plaza superior a 5, un abono de 5€ por plaza
-    def calcular_Tarifa(self,dias):
-        tarifa_base = super().calcular_Tarifa(dias)
+    def calcular_tarifa(self,dias):
+        tarifa_base = super().calcular_tarifa(dias)
 
         # Si tiene más de 5 plazas, le sumamos el recargo
         if self.num_plazas > 5:
@@ -72,8 +72,8 @@ class Furgoneta(Vehiculo):
         self.carga = carga
         self.num_plazas=num_plazas
 
-    def calcular_Tarifa(self, dias):
-        return super().calcular_Tarifa(dias) + ((self.carga / 100) * 2)
+    def calcular_tarifa(self, dias):
+        return super().calcular_tarifa(dias) + ((self.carga / 100) * 2)
 
     def __str__(self):
         return f"Furgoneta Matricula: {self.matricula}, Plazas: {self.num_plazas}, Carga: {self.carga}"
