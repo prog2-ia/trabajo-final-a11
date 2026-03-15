@@ -1,14 +1,22 @@
-
+from abc import ABC,abstractmethod
 
 class Vehiculo:
     def __init__(self,matricula,precio_base_dia):
-        self.matricula = matricula
+        self.__matricula = matricula
         #Tarifa estándar de lo que cuesta el alquiler de vehículo
         self.precio_base_dia = precio_base_dia
         self.kilometraje_actual = 0
         self.km_ultima_revision = 0
         self.disponible = True
         self.revision = False
+
+    @abstractmethod
+    def generar_detalles_contrato(self):
+        pass
+
+    @property
+    def matricula(self):
+        return self.__matricula
 
     def calcular_Tarifa(self,dias):
         tarifa = self.precio_base_dia * dias
