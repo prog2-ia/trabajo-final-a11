@@ -46,8 +46,9 @@ class Reserva:
         --- CONTRATO DE ALQUILER ---
         Reserva ID: {self.id_reserva}
         DNI Cliente: {self.dni_cliente}
+        Vehículo: {self.vehiculo}
         Fechas: {self.fecha_inicio} a {self.fecha_fin}
-        Precio Total: {self.precio_total} €
+        Precio Total: {self._Reserva__precio_total} €
         ----------------------------
         """
 
