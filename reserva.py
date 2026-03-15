@@ -28,7 +28,6 @@ class Reserva:
         # Obtenemos la tarifa base desde el objeto vehículo
         precio_base = self.vehiculo.calcular_Tarifa(dias)
 
-        # --- LÓGICA DE DESCUENTOS POR DURACIÓN ---
         porcentaje_descuento = 0
 
         if dias >= 30:

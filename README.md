@@ -1,1 +1,5 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/09uckVan)
+# ***Sistema de Gestión de Alquiler de Vehículos***
+
+## Propósito del Proyecto:
+Esta aplicación es un sistema de gestión para una flota de vehículos de alquiler. Está diseñada utilizando los principios de la Programación Orientada a objetos en Python que hemos visto en clase hasta ahora
+El programa permite administrar diferentes tipos de vehículos jerarquizados (Turismos, Furgonetas y Eléctricos), aplicando políticas de precios específicas y penalizaciones. Además, gestiona reservas normales, genera contratos en formato texto (`.txt`)
