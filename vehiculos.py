@@ -1,6 +1,6 @@
 from abc import ABC,abstractmethod
 
-class Vehiculo:
+class Vehiculo(ABC):
     def __init__(self,matricula,precio_base_dia):
         self.__matricula = matricula
         #Tarifa estándar de lo que cuesta el alquiler de vehículo
@@ -11,7 +11,7 @@ class Vehiculo:
         self.revision = False
 
     @abstractmethod
-    def generar_detalles_contrato(self):
+    def __str__(self):
         pass
 
     @property
@@ -57,21 +57,30 @@ class Turismo(Vehiculo):
         if self.num_plazas>5:
             return super().calcular_Tarifa(dias) + ((self.num_plazas - 5)*5)
 
+    def __str__(self):
+        return f"Turismo Matricula: {self.matricula}, Plazas: {self.num_plazas}"
+
 class Furgoneta(Vehiculo):
-    def __init__(self,matricula,precio_base_dia,carga):
+    def __init__(self,matricula,precio_base_dia,carga,num_plazas):
         super().__init__(matricula,precio_base_dia)
         self.carga = carga
+        self.num_plazas=num_plazas
 
     def calcular_Tarifa(self, dias):
         return super().calcular_Tarifa(dias) + ((self.carga / 100) * 2)
 
+    def __str__(self):
+        return f"Furgoneta Matricula: {self.matricula}, Plazas: {self.num_plazas}, Carga: {self.carga}"
+
 #class Electrico:
 
 class Electrico(Vehiculo):
-    def __init__(self, matricula, precio_base_dia, nivel_bateria, autonomia_maxima):
+    def __init__(self, matricula, precio_base_dia, nivel_bateria, autonomia_maxima, num_plazas):
         super().__init__(matricula, precio_base_dia)
         self.nivel_bateria = nivel_bateria
         self.autonomia_maxima = autonomia_maxima
+        self.num_plazas=num_plazas
+
 
     def alquilar(self):
         if self.nivel_bateria < 20:
@@ -83,3 +92,6 @@ class Electrico(Vehiculo):
     def cargar(self):
         self.nivel_bateria = 100
         print(f'Vehículo {self.matricula} cargado al 100%')
+
+    def __str__(self):
+        return f"Eléctrico Matricula: {self.matricula}, Plazas: {self.num_plazas}, Autoonomía: {self.autonomia_maxima}, Batería: {self.nivel_bateria}"
