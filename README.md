@@ -14,7 +14,16 @@ El proyecto cumple con requerimientos avanzados como:
 ## Instalación
 
 
-Para hacer funcionar este proyecto en tu entorno local descarga los archivos del proyecto en una carpeta local. Deberías tener los archivos `vehiculos.py`, `reserva.py` y `ejecutable.py`.
+Para hacer funcionar este proyecto en tu entorno local descarga los archivos del proyecto en una carpeta local. Deberías tener los archivos `vehiculos.py`, `reserva.py` , `ejecutable.py` y `requirements.txt`.
+1. Crea y activa un entorno virtual:
+   bash
+   python -m venv env
+   # En Windows: env\Scripts\activate
+   # En macOS/Linux: source env/bin/activate
+
+2. Instala las dependencias necesarias ejecutando el siguiente comando:
+ bash
+ pip install -r requirements.txt 
 
 ## Uso
 El proyecto está modularizado, pero cuenta con un archivo principal de pruebas llamado ejecutable.py.
