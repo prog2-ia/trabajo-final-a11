@@ -1,5 +1,5 @@
 from datetime import date
-from vehiculos import Turismo, Furgoneta, Electrico
+from vehiculos import Vehiculo,Turismo, Furgoneta, Electrico
 from reserva import Reserva
 def main():
  print("INICIANDO PRUEBAS DEL SISTEMA DE ALQUILER ")
@@ -46,7 +46,6 @@ def main():
  reserva3.generar_contrato_txt()
  print()
  print("Todas las pruebas finalizadas. Revisa los archivos .txt generados.")
-
 
 if __name__ == "__main__":
  main()
