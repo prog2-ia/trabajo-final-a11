@@ -1,7 +1,7 @@
 from abc import ABC,abstractmethod
 
 class Vehiculo(ABC):
-    def __init__(self,matricula,precio_base_dia):
+    def __init__(self,matricula:str,precio_base_dia:int|float):
         self.__matricula = matricula
         #Tarifa estándar de lo que cuesta el alquiler de vehículo
         self.precio_base_dia = precio_base_dia
@@ -28,7 +28,7 @@ class Vehiculo(ABC):
         else:
             self.disponible=False
 
-    def devolver(self,km_recorridos):
+    def devolver(self,km_recorridos:int|float):
 
         if self.disponible==True:
             print('Ya ha sido devuelto') #Aqui excepcion solape(clase)

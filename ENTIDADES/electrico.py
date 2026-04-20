@@ -2,7 +2,7 @@ from vehiculos import Vehiculo
 
 #class Electrico:
 class Electrico(Vehiculo):
-    def __init__(self, matricula, precio_base_dia, nivel_bateria, autonomia_maxima, num_plazas):
+    def __init__(self, matricula: str, precio_base_dia: int|float, nivel_bateria: int|float, autonomia_maxima: int|float, num_plazas: int):
         super().__init__(matricula, precio_base_dia)
         self.nivel_bateria = nivel_bateria
         self.autonomia_maxima = autonomia_maxima
