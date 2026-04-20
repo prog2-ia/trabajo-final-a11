@@ -2,7 +2,7 @@ from vehiculos import Vehiculo
 
 
 class Furgoneta(Vehiculo):
-    def __init__(self,matricula,precio_base_dia,carga,num_plazas):
+    def __init__(self,matricula:str,precio_base_dia: int|float ,carga:int,num_plazas):
         super().__init__(matricula,precio_base_dia)
         self.carga = carga
         self.num_plazas=num_plazas

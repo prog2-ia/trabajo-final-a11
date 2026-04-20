@@ -1,0 +1,9 @@
+
+        --- CONTRATO DE ALQUILER ---
+        Reserva ID: RES-003
+        DNI Cliente: 55555555C
+        Vehículo: Eléctrico Matricula: 3333-CCC, Plazas: 5, Autoonomía: 400, Batería: 100
+        Fechas: 2026-03-15 a 2026-04-24
+        Precio Total: 2400.0 €
+        ----------------------------
+        

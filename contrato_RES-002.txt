@@ -1,0 +1,9 @@
+
+        --- CONTRATO DE ALQUILER ---
+        Reserva ID: RES-002
+        DNI Cliente: 87654321B
+        Vehículo: Furgoneta Matricula: 2222-BBB, Plazas: 3, Carga: 1000
+        Fechas: 2026-03-15 a 2026-03-25
+        Precio Total: 558.0 €
+        ----------------------------
+        

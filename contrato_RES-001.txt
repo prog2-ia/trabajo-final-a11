@@ -1,0 +1,9 @@
+
+        --- CONTRATO DE ALQUILER ---
+        Reserva ID: RES-001
+        DNI Cliente: 12345678A
+        Vehículo: Turismo Matricula: 1111-AAA, Plazas: 5
+        Fechas: 2026-03-15 a 2026-03-18
+        Precio Total: 150 €
+        ----------------------------
+        
