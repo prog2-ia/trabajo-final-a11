@@ -1,51 +1,81 @@
 from datetime import date
-from vehiculos import Vehiculo,Turismo, Furgoneta, Electrico
-from reserva import Reserva
+from ENTIDADES.vehiculos import  Vehiculo
+from ENTIDADES.turismo import Turismo
+from ENTIDADES.furgoneta import Furgoneta
+from ENTIDADES.electrico import Electrico
+from SERVICIOS.reserva import Reserva
+
+def crear_flota(): #Creamos una flota inicial de vehículos
+  flota = {"1": Turismo("1111-AAA", precio_base_dia=50, num_plazas=5,disponible = True),
+          "2": Furgoneta("2222-BBB", precio_base_dia=60, carga=1000, num_plazas=3,disponible=True),
+          "3": Electrico("3333-CCC", precio_base_dia=80, nivel_bateria=100, autonomia_maxima=400, num_plazas=5,disponible=True)}
+  return flota
+
+
 def main():
- print("INICIANDO PRUEBAS DEL SISTEMA DE ALQUILER ")
- # En primer lugar, creamos nuestra flota de prueba
- print("Creando vehículos...")
- coche_normal = Turismo("1111-AAA", precio_base_dia=50, num_plazas=5)
- furgoneta_carga = Furgoneta("2222-BBB", precio_base_dia=60, carga=1000, num_plazas=3)
- coche_electrico = Electrico("3333-CCC", precio_base_dia=80, nivel_bateria=100, autonomia_maxima=400, num_plazas=5)
- print("Flota creada correctamente.")
+ flota = crear_flota()
+ contador_reservas = 4 # Inicializamos el contador de reservas a 4, que son las iniciales para que empiece a generar ID RES-004
+ contador_flota = 3
+ flota["1"].alquilar()
+ seguir = True
+ while seguir:
+  print(20*'~')
+  print('Menú de gestión de alquileres')
+  print('1. Mostrar flota de coches disponibles.')
+  print('2. Mostrar flota de coches alquilados.')
+  print('3. Añadir un nuevo coche a la flota.')
+  print('4. Crear nuevo contrato de alquiler.')
+  print('5. Salir.')
+  print(20*'~')
+  opc = input('Introduce una opción: ')
+  if opc == '1':
+    for clave, valor in flota.items():
+        if  valor.disponible == True:
+            print(f'{clave},{valor}')
+
+  elif opc == '2':
+      for clave, valor in flota.items():
+          if valor.disponible == False:
+              print(f'{clave},{valor}')
+  elif opc == '3':
+      print('Tipos de Vehículo:')
+      print('1.Turismo')
+      print('2.Eléctrico')
+      print('3.Furgoneta')
+      tipo = input('Introduce el tipo de Vehículo: ')
+      contador_flota += 1
+      if tipo == '1':
+          matricula = input('Introduce la matrícula del vehículo: ')
+          num_plazas = int(input('Introduce el número de plazas: '))
+          flota[str(contador_flota)] = Turismo(matricula, 50, num_plazas)
+          print(f"Turismo con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
+      elif tipo == '3':
+          matricula = input('Introduce la matrícula del vehículo: ')
+          num_plazas = int(input('Introduce el número de plazas: '))
+          carga = int(input('Introduce la carga de la Furgoneta: '))
+          flota[str(contador_flota)] = Furgoneta(matricula, 50,carga, num_plazas)
+          print(f"Furgoneta con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
+      elif tipo == '2':
+          matricula = input('Introduce la matrícula del vehículo: ')
+          num_plazas = int(input('Introduce el número de plazas: '))
+          autonomia_maxima = int(input('Introduce la autonomía máxima: '))
+          flota[str(contador_flota)] = Electrico(matricula, 50, 100, autonomia_maxima, num_plazas)
+          print(f"Eléctrico con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
+
+  elif opc == '4':
+     reserva = ''
+     vehiculo = input('Introduce el índice del coche: ')
+     dni_cliente = input('Introduce el Dni del cliente: ')
+     fecha_inicio = date(input('Introduce la fecha de inicio: '))
+     fecha_fin = date(input('Introduce la fecha de fin:  '))
+     tipo_licencia = input('Introduce el tipo de licencia: ')
+     destino = input('Introduce el destino')
+     reserva = Reserva(contador_reservas,flota[str(vehiculo)],dni_cliente, fecha_inicio, fecha_fin, tipo_licencia, destino)
 
 
- # En segundo lugar, definimos algunas fechas para probar tus descuentos
- hoy = date(2026, 3, 15)
- fecha_3_dias = date(2026, 3, 18)  # Sin descuento
- fecha_10_dias = date(2026, 3, 25)  # 10% de descuento
- fecha_40_dias = date(2026, 4, 24)  # 25% de descuento
 
 
-
-
- # Primera prueba reserva corta. Sin descuento + Turismo
- print("PRUEBA 1: Alquiler Corto (Turismo)")
- reserva1 = Reserva("RES-001", coche_normal, "12345678A", hoy, fecha_3_dias, "B", "Madrid")
- reserva1.vehiculo.alquilar()  # Cambiamos disponibilidad
- print(f"Días de alquiler: {reserva1.calcular_dias()}")
- reserva1.generar_contrato_txt()
- print()
-
-
- # Segunda prueba reserva Media. 10% descuento + Furgoneta
- print("PRUEBA 2: Alquiler Medio con 10% Dto (Furgoneta)")
- reserva2 = Reserva("RES-002", furgoneta_carga, "87654321B", hoy, fecha_10_dias, "C1", "Valencia")
- reserva2.vehiculo.alquilar()
- print(f"Días de alquiler: {reserva2.calcular_dias()}")
- reserva2.generar_contrato_txt()
- print()
-
-
- #  Reserva Larga. 25% descuento + Eléctrico
- print("PRUEBA 3: Alquiler Largo con 25% Dto (Eléctrico)")
- reserva3 = Reserva("RES-003", coche_electrico, "55555555C", hoy, fecha_40_dias, "B", "Barcelona")
- reserva3.vehiculo.alquilar()
- print(f"Días de alquiler: {reserva3.calcular_dias()}")
- reserva3.generar_contrato_txt()
- print()
- print("Todas las pruebas finalizadas. Revisa los archivos .txt generados.")
-
+  elif opc == '5':
+   seguir = False
 if __name__ == "__main__":
  main()

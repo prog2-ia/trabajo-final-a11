@@ -1,12 +1,13 @@
-from vehiculos import Vehiculo
+from    ENTIDADES.vehiculos import Vehiculo
 
 #class Electrico:
 class Electrico(Vehiculo):
-    def __init__(self, matricula: str, precio_base_dia: int|float, nivel_bateria: int|float, autonomia_maxima: int|float, num_plazas: int):
-        super().__init__(matricula, precio_base_dia)
+    def __init__(self, matricula: str, precio_base_dia: int|float, nivel_bateria: int|float, autonomia_maxima: int|float, num_plazas: int,disponible:bool):
+        super().__init__(matricula, precio_base_dia,disponible)
         self.nivel_bateria = nivel_bateria
         self.autonomia_maxima = autonomia_maxima
         self.num_plazas=num_plazas
+
 
 
     def alquilar(self):
@@ -21,4 +22,4 @@ class Electrico(Vehiculo):
         print(f'Vehículo {self.matricula} cargado al 100%')
 
     def __str__(self):
-        return f"Eléctrico Matricula: {self.matricula}, Plazas: {self.num_plazas}, Autoonomía: {self.autonomia_maxima}, Batería: {self.nivel_bateria}"
+        return f"Eléctrico => Matricula: {self.matricula}, Plazas: {self.num_plazas}, Autonomía: {self.autonomia_maxima}, Batería: {self.nivel_bateria}, Disponible: {self.disponible}"

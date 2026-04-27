@@ -1,5 +1,5 @@
 from datetime import date
-from vehiculos import Vehiculo
+from    ENTIDADES.vehiculos import Vehiculo
 class Reserva:
     def __init__(self,id_reserva,vehiculo,dni_cliente,fecha_inicio,fecha_fin,tipo_licencia,destino):
         # Encapsulamos el id de la reserva
