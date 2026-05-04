@@ -65,13 +65,14 @@ def main():
   elif opc == '4':
      reserva = ''
      vehiculo = input('Introduce el índice del coche: ')
-     dni_cliente = input('Introduce el Dni del cliente: ')
+     #dni_cliente = input('Introduce el Dni del cliente: ')
      fecha_inicio = date(input('Introduce la fecha de inicio: '))
      fecha_fin = date(input('Introduce la fecha de fin:  '))
      tipo_licencia = input('Introduce el tipo de licencia: ')
      destino = input('Introduce el destino')
      reserva = Reserva(contador_reservas,flota[str(vehiculo)],dni_cliente, fecha_inicio, fecha_fin, tipo_licencia, destino)
-
+     reserva.generar_contrato_txt()
+     flota[str(vehiculo)].alquilar()
 
 
 

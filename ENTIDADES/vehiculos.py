@@ -1,5 +1,6 @@
 from abc import ABC,abstractmethod
 
+from EXCEPCIONES.excepciones import SolapeExcepcion,VehiculoEnRevisionExcepcion
 class Vehiculo(ABC):
     def __init__(self,matricula:str,precio_base_dia:int|float,disponible:bool):
         self.__matricula = matricula
@@ -23,15 +24,21 @@ class Vehiculo(ABC):
         return tarifa
 
     def alquilar(self):
-        if self.disponible==False and not self.revision:
-            print('Este coche no esta disponible') #Aqui excepcion solape(clase)
+        if self.revision == True:
+        # Lanza excepción porque está en el taller
+            raise VehiculoEnRevisionExcepcion(f"El vehículo {self.matricula} está pendiente de revisión y no se puede alquilar.")
+
+        elif self.disponible == False:
+        # Lanza excepción porque lo tiene otro cliente
+            raise SolapeExcepcion(f"El vehículo {self.matricula} ya está alquilado.")
+
         else:
-            self.disponible=False
+            self.disponible = False
 
     def devolver(self,km_recorridos:int|float):
 
         if self.disponible == True:
-            print('Ya ha sido devuelto') #Aqui excepcion solape(clase)
+            raise SolapeExcepcion(f'El vehículo {self.matricula} ya consta como devuelto y disponible.') #Aqui excepcion solape(clase)
         else:
             self.disponible = True
             self.kilometraje_actual+=km_recorridos

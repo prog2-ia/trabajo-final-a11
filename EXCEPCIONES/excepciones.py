@@ -1,8 +1,21 @@
-class Excepcion:
+class ExcepcionBase(Exception):
+    pass
+class SolapeExcepcion(ExcepcionBase):
+    pass
+class VehiculoEnRevisionExcepcion(ExcepcionBase):
+    pass
+class PlazasInsuficientesExcepcion(ExcepcionBase):
+    pass
+class KilometrajeImposibleExcepcion(ExcepcionBase):
+    pass
+class BateriaBajaExcepcion(ExcepcionBase):
     pass
 
-class SolapeExcepcion(Excepcion):
+class UsuarioNoEncontrado(ExcepcionBase):
     pass
 
-class KilometrajeImposibleExcepcion(Excepcion):
+class FechasInvalidasExcepcion(ExcepcionBase):
+    pass
+
+class DniValido(ExcepcionBase):
     pass
