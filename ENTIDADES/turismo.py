@@ -3,7 +3,6 @@ class Turismo(Vehiculo):
     def __init__(self,matricula:str,precio_base_dia:int|float,num_plazas:int,disponible: bool):
         super().__init__(matricula,precio_base_dia,disponible)
         self.num_plazas = num_plazas # Aquí ponemos una futura restricción para que si pide un coche de 7 plazas no darle una de 5
-        self.disponible = True
     #tarifa distinta, aquí vamos a cobrar más por cada plaza superior a 5, un abono de 5€ por plaza
     def calcular_tarifa(self,dias:int) -> int|float:
         tarifa_base = super().calcular_tarifa(dias)
