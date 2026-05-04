@@ -1,4 +1,6 @@
 from    ENTIDADES.vehiculos import Vehiculo
+from EXCEPCIONES.excepciones import BateriaBajaExcepcion
+
 
 #class Electrico:
 class Electrico(Vehiculo):
@@ -12,7 +14,7 @@ class Electrico(Vehiculo):
 
     def alquilar(self):
         if self.nivel_bateria < 20:
-            print('Error: Batería demasiado baja.')  # Aquí excepción
+            raise BateriaBajaExcepcion(f'Error: Batería del vehículo {self.matricula} demasiado baja ({self.nivel_bateria}%).')  # Aquí excepción
 
         else:
             super().alquilar()
