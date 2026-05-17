@@ -95,12 +95,15 @@ def main():
          destino = input('Introduce el destino')
          # Extraemos el objeto vehículo y lo intentamos alquilar
          vehiculo_obj = flota[str(vehiculo)]
-         vehiculo_obj.alquilar()  # Esto lanzará SolapeExcepcion o VehiculoEnRevisionExcepcion si no se puede alquilar
 
-         reserva = Reserva(f"RES-00{contador_reservas}", vehiculo_obj, dni_cliente, fecha_inicio, fecha_fin,
-                           tipo_licencia, destino)
-         reserva.generar_contrato_txt()
-         contador_reservas += 1
+         if clientes[dni_cliente].puede_alquilar():
+             vehiculo_obj.alquilar()  # Esto lanzará SolapeExcepcion o VehiculoEnRevisionExcepcion si no se puede alquilar
+
+             reserva = Reserva(f"RES-00{contador_reservas}", vehiculo_obj, dni_cliente, fecha_inicio, fecha_fin,
+                               tipo_licencia, destino)
+             reserva.generar_contrato_txt()
+             contador_reservas += 1
+
       except (UsuarioNoEncontrado, FechasInvalidasExcepcion, SolapeExcepcion, VehiculoEnRevisionExcepcion) as e:
           print(f"❌ Error al crear la reserva: {e}")
       except ValueError:
@@ -163,6 +166,12 @@ def main():
 
     elif opc == '7':
         seguir = False
+
+ARCHIVO_DATOS = "DATOS/datos_rentacar.pkl"
+
+def guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota):
+    if not os.path.exists("DATOS"):
+        os.makedirs("DATOS")
+
 if __name__ == "__main__":
  main()
-

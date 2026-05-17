@@ -14,7 +14,7 @@ class Electrico(Vehiculo):
 
     def alquilar(self):
         if self.nivel_bateria < 20:
-            raise BateriaBajaExcepcion(f'Error: Batería del vehículo {self.matricula} demasiado baja ({self.nivel_bateria}%).')  # Aquí excepción
+            raise BateriaBajaExcepcion(f'Error: Batería del vehículo {self.matricula} demasiado baja ({self.nivel_bateria}%).')
 
         else:
             super().alquilar()

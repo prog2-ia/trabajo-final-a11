@@ -1,4 +1,5 @@
 from datetime import date
+import os # Asegúrate de importar os arriba
 from    ENTIDADES.vehiculos import Vehiculo
 class Reserva:
     def __init__(self,id_reserva,vehiculo,dni_cliente,fecha_inicio,fecha_fin,tipo_licencia,destino):
@@ -39,7 +40,10 @@ class Reserva:
         return round(precio_final, 2)  # Redondeamos a 2 decimales
 
     def generar_contrato_txt(self):
-        nombre_archivo = f"contrato_{self.id_reserva}.txt"
+        if not os.path.exists("CONTRATOS"):
+            os.makedirs("CONTRATOS")
+
+        nombre_archivo = f"CONTRATOS/contrato_{self.id_reserva}.txt"
 
         # Aquí diseñamos el contrato
         contenido = f"""
