@@ -69,19 +69,19 @@ def main():
       if tipo == '1':
           matricula = input('Introduce la matrícula del vehículo: ')
           num_plazas = int(input('Introduce el número de plazas: '))
-          flota[str(contador_flota)] = Turismo(matricula, 50, num_plazas)
+          flota[str(contador_flota)] = Turismo(matricula, 50, num_plazas,True)
           print(f"Turismo con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
       elif tipo == '3':
           matricula = input('Introduce la matrícula del vehículo: ')
           num_plazas = int(input('Introduce el número de plazas: '))
           carga = int(input('Introduce la carga de la Furgoneta: '))
-          flota[str(contador_flota)] = Furgoneta(matricula, 50,carga, num_plazas)
+          flota[str(contador_flota)] = Furgoneta(matricula, 50,carga, num_plazas,True)
           print(f"Furgoneta con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
       elif tipo == '2':
           matricula = input('Introduce la matrícula del vehículo: ')
           num_plazas = int(input('Introduce el número de plazas: '))
           autonomia_maxima = int(input('Introduce la autonomía máxima: '))
-          flota[str(contador_flota)] = Electrico(matricula, 50, 100, autonomia_maxima, num_plazas)
+          flota[str(contador_flota)] = Electrico(matricula, 50, 100, autonomia_maxima, num_plazas,True)
           print(f"Eléctrico con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
           guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
 
