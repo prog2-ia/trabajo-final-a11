@@ -54,3 +54,8 @@ class Vehiculo(ABC):
         else:
             print('Este coche no necesita revisión')
 
+    def __eq__(self, other): #sobrecarga del operador == para poder comparar vehículos por matrícula
+        if isinstance(other, Vehiculo):
+            return self.matricula == other.matricula
+        return False
+

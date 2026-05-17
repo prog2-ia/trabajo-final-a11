@@ -19,12 +19,12 @@ class Reserva:
         return self.__id_reserva
 
     '''En este método calculamos el número de dias de la reserva'''
-    def calcular_dias(self):
+    def calcular_dias(self) -> int:
         diferencia = self.fecha_fin - self.fecha_inicio
         return diferencia.days
 
     '''En este método calculamos el coste total de la reserva'''
-    def calcular_precio_total(self):
+    def calcular_precio_total(self)->float:
         dias = self.calcular_dias()
         # Obtenemos la tarifa base desde el objeto vehículo
         precio_base = self.vehiculo.calcular_tarifa(dias)
@@ -39,6 +39,15 @@ class Reserva:
         precio_final = precio_base * (1 - porcentaje_descuento)
         return round(precio_final, 2)  # Redondeamos a 2 decimales
 
+    def __add__(self, suplemento: int | float) -> 'Reserva':
+        #Sobrecarga de + para poder cobrar un suplemento extra
+        if isinstance(suplemento, (int, float)):
+            # Sumamos el suplemento directamente al precio total
+            self._Reserva__precio_total += suplemento
+            print(f"Suplemento de {suplemento}€ añadido a la reserva {self.id_reserva}.")
+            return self
+        else:
+            raise TypeError("El suplemento a añadir debe ser un número (entero o decimal).")
     def generar_contrato_txt(self):
         if not os.path.exists("CONTRATOS"):
             os.makedirs("CONTRATOS")

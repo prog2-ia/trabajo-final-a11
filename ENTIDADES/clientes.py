@@ -52,6 +52,11 @@ class Cliente:
             return False, "El cliente debe ser mayor de 25 años."
         return True, "Apto para alquilar."
 
+    def __eq__(self, other): #sobre carga del opderador == para poder comparar clientes a través del DNI.
+        if isinstance(other, Cliente):
+            return self.dni == other.dni
+        return False
+
     def __str__(self):
         estado = "ACTIVO" if not self.esta_bloqueado else "BLOQUEADO"
         return (f"[{estado}] {self.nombre} {self.apellidos} ({self.dni}) | "

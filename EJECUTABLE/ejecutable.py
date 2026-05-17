@@ -6,6 +6,8 @@ from ENTIDADES.electrico import Electrico
 from SERVICIOS.reserva import Reserva
 from ENTIDADES.clientes import Cliente
 from EXCEPCIONES.excepciones import UsuarioNoEncontrado, FechasInvalidasExcepcion, DniValido, SolapeExcepcion, VehiculoEnRevisionExcepcion
+import pickle
+import os
 def crear_flota(): #Creamos una flota inicial de vehículos
   flota = {"1": Turismo("1111-AAA", precio_base_dia=50, num_plazas=5,disponible = True),
           "2": Furgoneta("2222-BBB", precio_base_dia=60, carga=1000, num_plazas=3,disponible=True),
@@ -19,13 +21,23 @@ def crear_clientes_iniciales():
     }
 
 def main():
- flota = crear_flota()
- clientes= crear_clientes_iniciales()
- contador_reservas = 4 # Inicializamos el contador de reservas a 4, que son las iniciales para que empiece a generar ID RES-004
- contador_flota = 3
- flota["1"].alquilar()
+ datos = cargar_datos()
+ if datos:
+     flota = datos["flota"]
+     clientes = datos["clientes"]
+     reservas = datos["reservas"]
+     contador_reservas = datos["contador_reservas"]
+     contador_flota = datos["contador_flota"]
+     print('Base de datos  cargada.')
+ else:
+     # Si no hay datos añadimos estos por defecto
+     flota = crear_flota()
+     clientes = crear_clientes_iniciales()
+     reservas = {}
+     contador_reservas = 4
+     contador_flota = 3
+     flota["1"].alquilar()
  seguir = True
-
  while seguir:
   print(30*'~')
   print('🚗Menú de gestión de alquileres🚗')
@@ -71,6 +83,7 @@ def main():
           autonomia_maxima = int(input('Introduce la autonomía máxima: '))
           flota[str(contador_flota)] = Electrico(matricula, 50, 100, autonomia_maxima, num_plazas)
           print(f"Eléctrico con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
+          guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
 
   elif opc == '4':
       try:
@@ -102,12 +115,15 @@ def main():
              reserva = Reserva(f"RES-00{contador_reservas}", vehiculo_obj, dni_cliente, fecha_inicio, fecha_fin,
                                tipo_licencia, destino)
              reserva.generar_contrato_txt()
+             reservas[reserva.id_reserva] = reserva
              contador_reservas += 1
+             guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
+             print("Reserva hecha correctamente.")
 
       except (UsuarioNoEncontrado, FechasInvalidasExcepcion, SolapeExcepcion, VehiculoEnRevisionExcepcion) as e:
-          print(f"❌ Error al crear la reserva: {e}")
+          print(f"Error al crear la reserva: {e}")
       except ValueError:
-          print("❌ Error: Por favor, introduce datos válidos (ej: fechas correctas o índices numéricos).")
+          print("Error: Por favor, introduce datos válidos (ej: fechas correctas o índices numéricos).")
 
   elif opc == '5':
       continuar = True
@@ -124,7 +140,7 @@ def main():
               print('Bienvenido {clientes[dni]}')
               continuar = False
             except UsuarioNoEncontrado as e:
-                print(f"❌ Error: {e}")
+                print(f"Error: {e}")
           elif elec == '2':
             try:
               print("--- Registro de Cliente ---")
@@ -146,32 +162,53 @@ def main():
               email = input('Introduce tu email: ')
 
               clientes[dni] = Cliente(dni, nombre, apellidos, tipo_licencia, fecha_nacimiento, fecha_licencia, email)
-              print(f"✅ Cliente {nombre} registrado correctamente.")
+              print(f"Cliente {nombre} registrado correctamente.")
+              guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
               continuar = False
             except DniValido as e:
-                print(f"❌ Error de registro: {e}")
+                print(f"Error de registro: {e}")
             except ValueError:
-                print("❌ Error: Formato de fecha incorrecto. Asegúrate de usar números DD/MM/AAAA.")
+                print("Error: Formato de fecha incorrecto. Asegúrate de usar números DD/MM/AAAA.")
 
-    elif opc == '6':
-        print("\n--- Consulta de Ficha Técnica ---")
-        try:
-            dni_consulta = input("Introduce el DNI del cliente: ")
-            if dni_consulta not in clientes:
-                raise UsuarioNoEncontrado(f"No existe ningún cliente registrado con el DNI {dni_consulta}.")
+  elif opc == '6':
+    print("\n--- Consulta de Ficha Técnica ---")
+    try:
+        dni_consulta = input("Introduce el DNI del cliente: ")
+        if dni_consulta not in clientes:
+            raise UsuarioNoEncontrado(f"No existe ningún cliente registrado con el DNI {dni_consulta}.")
 
-            clientes[dni_consulta].mostrar_ficha_tecnica()
-        except UsuarioNoEncontrado as e:
-            print(f"❌ Error: {e}")
+        clientes[dni_consulta].mostrar_ficha_tecnica()
+    except UsuarioNoEncontrado as e:
+        print(f"Error: {e}")
 
-    elif opc == '7':
-        seguir = False
+  elif opc == '7':
+      print("Guardando datos y cerrando el sistema...")
+      guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
+      seguir = False
 
 ARCHIVO_DATOS = "DATOS/datos_rentacar.pkl"
 
 def guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota):
+    #Aquí guardamos los datos en el archivo pickle
     if not os.path.exists("DATOS"):
         os.makedirs("DATOS")
+    datos = {"flota": flota,"clientes": clientes,"reservas": reservas,"contador_reservas": contador_reservas,"contador_flota": contador_flota}
+    try:
+        with open(ARCHIVO_DATOS, "wb") as datos_alquiler_coches:
+            pickle.dump(datos, datos_alquiler_coches)
+    except Exception as e:
+        print(f"Error al guardar los datos: {e}")
+
+
+def cargar_datos():
+    #Aquí leemos el archivo pickle para cargar los datos localmente
+    if os.path.exists(ARCHIVO_DATOS):
+        try:
+            with open(ARCHIVO_DATOS, "rb") as datos_alquiler_coches:
+                return pickle.load(datos_alquiler_coches)
+        except Exception as e:
+            print(f"Error al cargar los datos: {e}")
+    return None
 
 if __name__ == "__main__":
  main()

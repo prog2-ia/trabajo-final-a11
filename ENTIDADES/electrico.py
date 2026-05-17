@@ -23,5 +23,14 @@ class Electrico(Vehiculo):
         self.nivel_bateria = 100
         print(f'Vehículo {self.matricula} cargado al 100%')
 
+    def __add__(self, kilometros: int | float):
+
+        #Sobrecarga del operador + para sumar kilómetros al vehículo.
+
+        if isinstance(kilometros, (int, float)):
+            self.kilometraje_actual += kilometros
+            return self
+        raise TypeError("Los kilómetros deben ser numéricos.")
+
     def __str__(self):
         return f"Eléctrico => Matricula: {self.matricula}, Plazas: {self.num_plazas}, Autonomía: {self.autonomia_maxima}, Batería: {self.nivel_bateria}, Disponible: {self.disponible}"
