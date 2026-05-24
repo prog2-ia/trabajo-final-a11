@@ -1,0 +1,8 @@
+# Ignorar todos los archivos pickle
+*.pkl
+
+# Ignorar todos los archivos de texto
+*.txt
+
+# Excepción: NO ignorar el requirements.txt
+!requirements.txt

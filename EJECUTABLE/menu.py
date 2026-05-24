@@ -155,16 +155,18 @@ def main():
                 # Extraemos el objeto vehículo y lo intentamos alquilar
                 vehiculo_obj = flota[str(vehiculo)]
 
-                if clientes[dni_cliente].puede_alquilar():
-                    vehiculo_obj.alquilar()  # Esto lanzará SolapeExcepcion o VehiculoEnRevisionExcepcion si no se puede alquilar
-
-                reserva = Reserva(f"RES-00{contador_reservas}", vehiculo_obj, dni_cliente, fecha_inicio, fecha_fin,
-                               tipo_licencia, destino)
-                reserva.generar_contrato_txt()
-                reservas[reserva.id_reserva] = reserva
-                contador_reservas += 1
-                guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
-                print("Reserva hecha correctamente.")
+                apto, mensaje = clientes[dni_cliente].puede_alquilar()
+                if apto:
+                    vehiculo_obj.alquilar()
+                    reserva = Reserva(f"RES-00{contador_reservas}", vehiculo_obj, dni_cliente, fecha_inicio, fecha_fin,
+                                      tipo_licencia, destino)
+                    reserva.generar_contrato_txt()
+                    reservas[reserva.id_reserva] = reserva
+                    contador_reservas += 1
+                    guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
+                    print("Reserva hecha correctamente.")
+                else:
+                    print(f"Error: No se puede alquilar. {mensaje}")
 
             except (UsuarioNoEncontrado, FechasInvalidasExcepcion, SolapeExcepcion, VehiculoEnRevisionExcepcion) as e:
                 print(f"Error al crear la reserva: {e}")
