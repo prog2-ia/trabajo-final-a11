@@ -1,0 +1,9 @@
+
+        --- CONTRATO DE ALQUILER ---
+        Reserva ID: RES-004
+        DNI Cliente: 12345678G
+        Vehículo: Turismo => Matricula: 1122HSR, Plazas: 5, Disponible: False
+        Fechas: 2026-05-19 a 2026-05-23
+        Precio Total: 200 €
+        ----------------------------ñ
+        
