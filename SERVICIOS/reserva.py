@@ -44,7 +44,6 @@ class Reserva:
         if isinstance(suplemento, (int, float)):
             # Sumamos el suplemento directamente al precio total
             self._Reserva__precio_total += suplemento
-            print(f"Suplemento de {suplemento}€ añadido a la reserva {self.id_reserva}.")
             return self
         else:
             raise TypeError("El suplemento a añadir debe ser un número (entero o decimal).")
