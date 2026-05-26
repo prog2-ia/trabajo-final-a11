@@ -53,7 +53,8 @@ python main.py
 ## Si no quieres descargar el código fuente ni instalar dependencias, puedes usar la versión del programa generada con PyInstaller:
 **Para Linux:**
 1. Abre tu terminal en la carpeta `dist/` donde se encuentra el archivo **`RentACar`**.
-2. Ejecútalo escribiendo: `./RentACar`
+2. Utilizar el comando `chmod +x RentACar`
+3. Ejecútalo escribiendo: `./RentACar`
 
 
 Al hacerlo, el programa interactuará con las clases de vehiculos.py y reserva.py para crear objetos, calcular las tarifas correspondientes y generar automáticamente los archivos de texto (.txt) con los contratos en tu misma carpeta.
