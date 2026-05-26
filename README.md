@@ -42,13 +42,18 @@ Para hacer funcionar este proyecto en tu entorno local descarga los archivos del
 
 2. Instala las dependencias necesarias ejecutando el siguiente comando:
  bash
- pip install -r requirements.txt 
+ pip install -r requirements.txt
 
-## Uso
+## Uso en caso de descargar todo el proyecto
 El proyecto está modularizado, pero cuenta con un archivo principal de pruebas llamado ejecutable.py.
 Para iniciar el programa y ver la simulación completa del sistema de reservas, simplemente ejecuta el siguiente comando en tu terminal:
 Bash
-python ejecutable.py
+python main.py
+
+## Si no quieres descargar el código fuente ni instalar dependencias, puedes usar la versión del programa generada con PyInstaller:
+**Para Linux:**
+1. Abre tu terminal en la carpeta `dist/` donde se encuentra el archivo **`RentACar`**.
+2. Ejecútalo escribiendo: `./RentACar`
 
 
 Al hacerlo, el programa interactuará con las clases de vehiculos.py y reserva.py para crear objetos, calcular las tarifas correspondientes y generar automáticamente los archivos de texto (.txt) con los contratos en tu misma carpeta.
