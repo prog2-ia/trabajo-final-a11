@@ -85,7 +85,7 @@ def main():
                 dni = pedir_dni('Introduce el dni:')
                 if dni not in clientes:
                     raise UsuarioNoEncontrado("Este cliente no está registrado.")  # Excepción lanzada
-                print(f'Bienvenido {clientes[dni]}')
+                print(f'Bienvenido {clientes[dni].nombre}')
                 dni_cliente_actual = dni
                 usuario_registrado = True
             except UsuarioNoEncontrado as e:
@@ -181,9 +181,8 @@ def main():
                 vehiculo = input('Introduce el índice del coche: ')
                 if vehiculo not in flota:
                     raise ValueError("El vehículo seleccionado no existe en la flota.")
-                dni_cliente = pedir_dni('Introduce el dni del cliente:')
-                if dni_cliente not in clientes:
-                    raise UsuarioNoEncontrado("Este cliente no está registrado en el sistema. Regístralo primero.")
+
+                dni_cliente = dni_cliente_actual
 
                 str_inicio = input('Introduce la fecha de inicio (DD/MM/AAAA): ')
                 dia_i, mes_i, anio_i = str_inicio.split('/')
@@ -233,10 +232,17 @@ def main():
 
                 if isinstance(vehiculo_obj, Electrico):
                     vehiculo_obj = vehiculo_obj + km_recorridos
-
-                # Llamamos a la función devolver de la clase padre Vehiculo
-                vehiculo_obj.devolver(0)
+                    vehiculo_obj.devolver(0)  # Si es eléctrico pasamos 0 ya ha sumado el operador +
+                else:
+                    vehiculo_obj.devolver(km_recorridos)  # Si es turismo o furgoneta, se lo pasamos normal
                 print(f"Vehículo {vehiculo_obj.matricula} devuelto correctamente.")
+                coste_extra = pedir_float("¿El vehículo se ha devuelto con daños o sucio? Introduce el coste extra (o 0 si está todo bien): ")
+                if coste_extra > 0:
+                    # Buscamos la última reserva de este cliente
+                    id_ultima_reserva = clientes[dni_cliente_actual].historial_reservas[-1]
+                    reserva_afectada = reservas[id_ultima_reserva]
+                    reserva_afectada = reserva_afectada + coste_extra
+                    print(f"Recargo de {coste_extra}€ aplicado a la reserva {reserva_afectada.id_reserva}.")
                 guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
 
             except SolapeExcepcion as e:
@@ -244,14 +250,7 @@ def main():
             except ValueError:
                 print("Error: Por favor, introduce kilómetros numéricos válidos.")
 
-            suplemento = input("¿El vehículo se ha devuelto con daños o sucio? Introduce el coste extra (o 0 si está todo bien): ")
-            coste_extra = float(suplemento)
-            if coste_extra > 0:
-                # Buscamos la última reserva de este cliente
-                id_ultima_reserva = clientes[dni_cliente_actual].historial_reservas[-1]
-                reserva_afectada = reservas[id_ultima_reserva]
-                reserva_afectada = reserva_afectada + coste_extra
-                print(f"Recargo de {coste_extra}€ aplicado a la reserva {reserva_afectada.id_reserva}.")
+
 
         elif opc == '6':
             print("Mi Perfil")

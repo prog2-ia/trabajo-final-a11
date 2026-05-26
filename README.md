@@ -1,4 +1,7 @@
 # ***Sistema de Gestión de Alquiler de Vehículos***
+## Creadores
+* **Máximo Gil Carcaño** - [maximogil11]
+* **Hugo Sánchez Recio** - [hugosanchez13]
 
 ## Propósito del Proyecto:
 Esta aplicación es un sistema de gestión para una flota de vehículos de alquiler. Está diseñada utilizando los principios de la Programación Orientada a objetos en Python que hemos visto en clase hasta ahora
@@ -10,9 +13,25 @@ El proyecto cumple con requerimientos avanzados como:
 * Manejo de excepciones.
 * Modularidad (separación en diferentes archivos `.py`).
 
+## Estructura del Proyecto
+El código está dividido en módulos para facilitar su mantenimiento y escalabilidad:
+
+* `main.py`: Punto de entrada principal de la aplicación.
+* `EJECUTABLE/`: Contiene `menu.py`, que maneja toda interfaz de usuario y los bucles del programa.
+* `ENTIDADES/`: Contiene las clases principales (`vehiculos.py`, `turismo.py`, `furgoneta.py`, `electrico.py`, `clientes.py`).
+* `SERVICIOS/`: Contiene la lógica de operaciones y facturación (`reserva.py`).
+* `EXCEPCIONES/`: Define errores personalizados (`excepciones.py`) para evitar que el programa colapse.
+* `CONTRATOS/`: Carpeta autogenerada donde se guardan los "recibos" de alquiler en formato `.txt`.
+* `DATOS/`: Carpeta autogenerada donde se almacena la base de datos local.
+
+# Archivos Pickle
+Este proyecto guarda los datos, es decir, no pierdes la información al cerrar la consola.
+Todo el estado de la aplicación (la flota de vehículos, los clientes registrados y el historial de reservas) se guarda automáticamente en el archivo **`DATOS/datos_rentacar.pkl`** mediante la librería  `pickle` de Python. 
+
+* **Autoguardado:** El sistema guarda los datos cada vez que se hace un cambio importante (registrar cliente, añadir coche, alquilar, devolver) y al salir del programa correctamente.
+* **Reinicio de la base de datos:** Si en algún momento necesitas hacer pruebas desde cero o la base de datos se corrompe, simplemente **borra el archivo `datos_rentacar.pkl`** y la aplicación volverá a sus valores por defecto en el próximo arranque.
 
 ## Instalación
-
 
 Para hacer funcionar este proyecto en tu entorno local descarga los archivos del proyecto en una carpeta local. Deberías tener los archivos `vehiculos.py`, `reserva.py` , `ejecutable.py` y `requirements.txt`.
 1. Crea y activa un entorno virtual:
