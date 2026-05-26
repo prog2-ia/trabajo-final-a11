@@ -53,7 +53,7 @@ python main.py
 ## Si no quieres descargar el código fuente ni instalar dependencias, puedes usar la versión del programa generada con PyInstaller:
 **Para Linux:**
 1. Abre tu terminal en la carpeta `dist/` donde se encuentra el archivo **`RentACar`**.
-2. Utilizar el comando `chmod +x RentACar`
+2. Utilizar el comando `chmod +x RentACar` 
 3. Ejecútalo escribiendo: `./RentACar`
 
 
