@@ -113,6 +113,7 @@ def main():
                 clientes[dni] = Cliente(dni, nombre, apellidos, tipo_licencia, fecha_nacimiento, fecha_licencia, email)
                 print(f"Cliente {nombre} registrado correctamente.")
                 guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
+                dni_cliente_actual = dni
                 usuario_registrado=True
             except DniValido as e:
                 print(f"Error de registro: {e}")
@@ -239,10 +240,12 @@ def main():
                 coste_extra = pedir_float("¿El vehículo se ha devuelto con daños o sucio? Introduce el coste extra (o 0 si está todo bien): ")
                 if coste_extra > 0:
                     # Buscamos la última reserva de este cliente
-                    id_ultima_reserva = clientes[dni_cliente_actual].historial_reservas[-1]
-                    reserva_afectada = reservas[id_ultima_reserva]
-                    reserva_afectada = reserva_afectada + coste_extra
-                    print(f"Recargo de {coste_extra}€ aplicado a la reserva {reserva_afectada.id_reserva}.")
+                    historial = clientes[dni_cliente_actual].historial_reservas
+                    if historial:  # <--- COMPROBACIÓN VITAL
+                        id_ultima_reserva = clientes[dni_cliente_actual].historial_reservas[-1]
+                        reserva_afectada = reservas[id_ultima_reserva]
+                        reserva_afectada = reserva_afectada + coste_extra
+                        print(f"Recargo de {coste_extra}€ aplicado a la reserva {reserva_afectada.id_reserva}.")
                 guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
 
             except SolapeExcepcion as e:
