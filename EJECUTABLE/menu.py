@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date,datetime
 from ENTIDADES.vehiculos import  Vehiculo
 from ENTIDADES.turismo import Turismo
 from ENTIDADES.furgoneta import Furgoneta
@@ -54,6 +54,16 @@ def pedir_float(mensaje):
             return float(input(mensaje))
         except ValueError:
             print(" Error: Por favor, introduce un número decimal válido.")
+def pedir_fecha(mensaje):
+    while True:
+        fecha = input(mensaje).strip()
+        try:
+            if len(fecha) != 10:
+                raise ValueError
+            fecha_obj = datetime.strptime(fecha, "%d/%m/%Y").date()
+            return fecha_obj
+        except ValueError:
+            print('Error. Formato incorrecto o fecha inexistente')
 
 def main():
     datos = cargar_datos()
@@ -101,13 +111,9 @@ def main():
                     apellidos = input('Introduce los apellidos: ')
                     tipo_licencia = input('Introduce el tipo de licencia: ')
 
-                    str_nac = input('Introduce tu fecha de nacimiento (DD/MM/AAAA): ')
-                    dia_n, mes_n, anio_n = str_nac.split('/')
-                    fecha_nacimiento = date(int(anio_n), int(mes_n), int(dia_n))
+                    fecha_nacimiento = pedir_fecha('Introduce tu fecha de nacimiento (DD/MM/AAAA): ')
 
-                    str_lic = input('Introduce tu fecha de licencia (DD/MM/AAAA): ')
-                    dia_l, mes_l, anio_l = str_lic.split('/')
-                    fecha_licencia = date(int(anio_l), int(mes_l), int(dia_l))
+                    fecha_licencia = pedir_fecha('Introduce tu fecha de licencia (DD/MM/AAAA): ')
 
                     email = input('Introduce tu email: ')
 
@@ -187,15 +193,11 @@ def main():
 
                     dni_cliente = dni_cliente_actual
 
-                    str_inicio = input('Introduce la fecha de inicio (DD/MM/AAAA): ')
-                    dia_i, mes_i, anio_i = str_inicio.split('/')
-                    fecha_inicio = date(int(anio_i), int(mes_i), int(dia_i))
+                    fecha_inicio = pedir_fecha('Introduce la fecha de inicio (DD/MM/AAAA): ')
                     if fecha_inicio < date.today():
                         raise FechasInvalidasExcepcion("No puedes iniciar una reserva en una fecha pasada.")
 
-                    str_fin = input('Introduce la fecha de fin (DD/MM/AAAA): ')
-                    dia_f, mes_f, anio_f = str_fin.split('/')
-                    fecha_fin = date(int(anio_f), int(mes_f), int(dia_f))
+                    fecha_fin = pedir_fecha('Introduce la fecha de fin (DD/MM/AAAA): ')
                     if fecha_inicio >= fecha_fin:
                         raise FechasInvalidasExcepcion("La fecha de inicio no puede ser igual o posterior a la de fin.")
 
@@ -220,8 +222,8 @@ def main():
 
                 except (UsuarioNoEncontrado, FechasInvalidasExcepcion, SolapeExcepcion, VehiculoEnRevisionExcepcion) as e:
                     print(f"Error al crear la reserva: {e}")
-                except ValueError:
-                    print("Error: Por favor, introduce datos válidos (ej: fechas correctas o índices numéricos).")
+                except ValueError as e:
+                    print(f'Error: {e}')
 
             elif opc == '5':
                 try:
@@ -243,7 +245,7 @@ def main():
                     if coste_extra > 0:
                         # Buscamos la última reserva de este cliente
                         historial = clientes[dni_cliente_actual].historial_reservas
-                        if historial:  # <--- COMPROBACIÓN VITAL
+                        if historial:
                             id_ultima_reserva = clientes[dni_cliente_actual].historial_reservas[-1]
                             reserva_afectada = reservas[id_ultima_reserva]
                             reserva_afectada = reserva_afectada + coste_extra
@@ -252,8 +254,8 @@ def main():
 
                 except SolapeExcepcion as e:
                     print(f"Error: {e}")
-                except ValueError:
-                    print("Error: Por favor, introduce kilómetros numéricos válidos.")
+                except ValueError as e:
+                    print(f'Error: {e}')
 
 
 
