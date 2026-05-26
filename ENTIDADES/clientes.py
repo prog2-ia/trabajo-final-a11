@@ -60,4 +60,4 @@ class Cliente:
     def __str__(self):
         estado = "ACTIVO" if not self.esta_bloqueado else "BLOQUEADO"
         return (f"[{estado}] {self.nombre} {self.apellidos} ({self.dni}) | "
-                f"Experiencia: {self.años_experiencia} años | Puntos: {self.puntos_fidelidad}")
+                f"Experiencia: {self.años_experiencia} años")

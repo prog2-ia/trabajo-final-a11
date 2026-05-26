@@ -18,6 +18,42 @@ def crear_flota(): #Creamos una flota inicial de vehículos
 def crear_clientes_iniciales():
     # Diccionario usando el DNI como clave
     return {"12345678A": Cliente("12345678A", "Pepe", "Pérez", "B",date(1990, 5, 12), date(2010, 8, 20), "pepe@gmail.com") }
+def pedir_dni(mensaje):
+    letras_validas = 'TRWAGMYFPDXBNJZSQVHLCKE'
+    while True:
+        dni = input(mensaje).strip().upper()
+        if len(dni) == 9:
+            if dni[:8].isdigit():
+                if dni[8].isalpha():
+                #comprobamos que la letra sea la correcta
+                    if letras_validas[int(dni[:8]) % 23] == dni[8]:
+                        return dni
+        print('Error: DNI inválido.')
+
+def pedir_matricula(mensaje):
+    while True:
+        matricula = input(mensaje).strip().upper()
+        mat_limpia = matricula.replace("-", "")
+        # Comprobamos que midan 7 caracteres exactos (4 números + 3 letras)
+        if len(mat_limpia) == 7:
+            if mat_limpia[:4].isdigit():
+                if mat_limpia[4:].isalpha():
+                    return matricula
+        print('Error: Matrícula inválida.')
+
+def pedir_entero(mensaje):
+    while True:
+        try:
+            return int(input(mensaje))
+        except ValueError:
+            print(" Error: Por favor, introduce un número entero válido.")
+
+def pedir_float(mensaje):
+    while True:
+        try:
+            return float(input(mensaje))
+        except ValueError:
+            print(" Error: Por favor, introduce un número decimal válido.")
 
 def main():
     datos = cargar_datos()
@@ -40,16 +76,16 @@ def main():
     usuario_registrado = False
     dni_cliente_actual = None
     while not usuario_registrado:
-        print('Usuario:')
-        print('1.Iniciar Sesión:')
-        print('2.Registrarse: ')
+        print('Usuario')
+        print('1.Iniciar Sesión')
+        print('2.Registrarse ')
         elec = input('Escoja una opción: ')
         if elec == '1':
             try:
-                dni = input('Introduce el dni: ')
+                dni = pedir_dni('Introduce el dni:')
                 if dni not in clientes:
                     raise UsuarioNoEncontrado("Este cliente no está registrado.")  # Excepción lanzada
-                print('Bienvenido {clientes[dni]}')
+                print(f'Bienvenido {clientes[dni]}')
                 dni_cliente_actual = dni
                 usuario_registrado = True
             except UsuarioNoEncontrado as e:
@@ -57,7 +93,7 @@ def main():
         elif elec == '2':
             try:
                 print("--- Registro de Cliente ---")
-                dni = input('Introduce el dni: ')
+                dni = pedir_dni('Introduce el dni:')
                 if dni in clientes:
                     raise DniValido("Este DNI ya se encuentra registrado.")  # Excepción para duplicados
                 nombre = input('Introduce el nombre: ')
@@ -77,7 +113,7 @@ def main():
                 clientes[dni] = Cliente(dni, nombre, apellidos, tipo_licencia, fecha_nacimiento, fecha_licencia, email)
                 print(f"Cliente {nombre} registrado correctamente.")
                 guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
-                continuar = False
+                usuario_registrado=True
             except DniValido as e:
                 print(f"Error de registro: {e}")
             except ValueError:
@@ -122,20 +158,20 @@ def main():
             tipo = input('Introduce el tipo de Vehículo: ')
             contador_flota += 1
             if tipo == '1':
-                matricula = input('Introduce la matrícula del vehículo: ')
-                num_plazas = int(input('Introduce el número de plazas: '))
+                matricula = pedir_matricula('Introduce la matrícula del vehículo: ')
+                num_plazas = pedir_entero('Introduce el número de plazas')
                 flota[str(contador_flota)] = Turismo(matricula, 50, num_plazas,True)
                 print(f"Turismo con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
             elif tipo == '3':
-                matricula = input('Introduce la matrícula del vehículo: ')
-                num_plazas = int(input('Introduce el número de plazas: '))
-                carga = int(input('Introduce la carga de la Furgoneta: '))
+                matricula = pedir_matricula('Introduce la matrícula del vehículo: ')
+                num_plazas = pedir_entero('Introduce el número de plazas')
+                carga = pedir_entero('Introduce la carga de la Furgoneta:')
                 flota[str(contador_flota)] = Furgoneta(matricula, 50,carga, num_plazas,True)
                 print(f"Furgoneta con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
             elif tipo == '2':
-                matricula = input('Introduce la matrícula del vehículo: ')
-                num_plazas = int(input('Introduce el número de plazas: '))
-                autonomia_maxima = int(input('Introduce la autonomía máxima: '))
+                matricula = pedir_matricula('Introduce la matrícula del vehículo: ')
+                num_plazas = pedir_entero('Introduce el número de plazas')
+                autonomia_maxima = pedir_entero('Introduce la autonomía máxima: ')
                 flota[str(contador_flota)] = Electrico(matricula, 50, 100, autonomia_maxima, num_plazas,True)
                 print(f"Eléctrico con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
             guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
@@ -145,7 +181,7 @@ def main():
                 vehiculo = input('Introduce el índice del coche: ')
                 if vehiculo not in flota:
                     raise ValueError("El vehículo seleccionado no existe en la flota.")
-                dni_cliente = input('Introduce el Dni del cliente: ')
+                dni_cliente = pedir_dni('Introduce el dni del cliente:')
                 if dni_cliente not in clientes:
                     raise UsuarioNoEncontrado("Este cliente no está registrado en el sistema. Regístralo primero.")
 
@@ -193,7 +229,7 @@ def main():
 
                 vehiculo_obj = flota[str(vehiculo_idx)]
 
-                km_recorridos = float(input('Introduce los kilómetros recorridos durante el alquiler: '))
+                km_recorridos = pedir_float('Introduce los kilómetros recorridos durante el alquiler: ')
 
                 if isinstance(vehiculo_obj, Electrico):
                     vehiculo_obj = vehiculo_obj + km_recorridos
@@ -207,6 +243,15 @@ def main():
                 print(f"Error: {e}")
             except ValueError:
                 print("Error: Por favor, introduce kilómetros numéricos válidos.")
+
+            suplemento = input("¿El vehículo se ha devuelto con daños o sucio? Introduce el coste extra (o 0 si está todo bien): ")
+            coste_extra = float(suplemento)
+            if coste_extra > 0:
+                # Buscamos la última reserva de este cliente
+                id_ultima_reserva = clientes[dni_cliente_actual].historial_reservas[-1]
+                reserva_afectada = reservas[id_ultima_reserva]
+                reserva_afectada = reserva_afectada + coste_extra
+                print(f"Recargo de {coste_extra}€ aplicado a la reserva {reserva_afectada.id_reserva}.")
 
         elif opc == '6':
             print("\n--- Mi Perfil ---")
