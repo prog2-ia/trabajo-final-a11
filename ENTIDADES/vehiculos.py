@@ -6,7 +6,7 @@ class Vehiculo(ABC):
         self.__matricula = matricula
         #Tarifa estándar de lo que cuesta el alquiler de vehículo
         self.precio_base_dia = precio_base_dia
-        self.kilometraje_actual = 0
+        self.__kilometraje_actual = 0
         self.km_ultima_revision = 0
         self.disponible = True
         self.revision = False
@@ -14,6 +14,16 @@ class Vehiculo(ABC):
     @abstractmethod
     def __str__(self):
         pass
+
+    @property
+    def kilometraje_actual(self):
+        return self.__kilometraje_actual
+
+    @kilometraje_actual.setter
+    def kilometraje_actual(self, nuevos_km):
+        if nuevos_km < self.__kilometraje_actual:
+            raise ValueError("¡No se puede trucar el cuentakilómetros! Los kilómetros no pueden bajar.")
+        self.__kilometraje_actual = nuevos_km
 
     @property
     def matricula(self):

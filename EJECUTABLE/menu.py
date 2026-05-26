@@ -91,7 +91,7 @@ def main():
         print('2. Mostrar flota de coches alquilados.')
         print('3. Añadir un nuevo coche a la flota.')
         print('4. Crear nuevo contrato de alquiler.')
-        print('5. Iniciar sesión o registrar nuevo cliente.')
+        print('5. Devolver vehículo')
         print('6. Mostrar ficha técnica cliente.')
         print('7. Salir.')
         print(30*'~')
@@ -102,9 +102,18 @@ def main():
                     print(f'{clave},{valor}')
 
         elif opc == '2':
+            hay_alquilados=False
             for clave, valor in flota.items():
-                if valor.disponible == False:
-                    print(f'{clave},{valor}')
+                if not valor.disponible:
+                    hay_alquilados = True
+                    print(f"Coche ID {clave}: {valor.matricula}")
+                    # Buscar en las reservas quién lo tiene
+                    for res in reservas.values():
+                        # Si la reserva tiene este vehículo y la fecha de fin aún no ha pasado (o asumiendo la última reserva)
+                        if res.vehiculo.matricula == valor.matricula:
+                            print(f" -> Alquilado por DNI: {res.dni_cliente} hasta el {res.fecha_fin}")
+            if not hay_alquilados:
+                print("No hay ningún coche alquilado ahora mismo.")
         elif opc == '3':
             print('Tipos de Vehículo:')
             print('1.Turismo')
@@ -143,6 +152,8 @@ def main():
                 str_inicio = input('Introduce la fecha de inicio (DD/MM/AAAA): ')
                 dia_i, mes_i, anio_i = str_inicio.split('/')
                 fecha_inicio = date(int(anio_i), int(mes_i), int(dia_i))
+                if fecha_inicio < date.today():
+                    raise FechasInvalidasExcepcion("No puedes iniciar una reserva en una fecha pasada.")
 
                 str_fin = input('Introduce la fecha de fin (DD/MM/AAAA): ')
                 dia_f, mes_f, anio_f = str_fin.split('/')
@@ -163,6 +174,7 @@ def main():
                     reserva.generar_contrato_txt()
                     reservas[reserva.id_reserva] = reserva
                     contador_reservas += 1
+                    clientes[dni_cliente].historial_reservas.append(reserva.id_reserva)
                     guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
                     print("Reserva hecha correctamente.")
                 else:
@@ -173,16 +185,41 @@ def main():
             except ValueError:
                 print("Error: Por favor, introduce datos válidos (ej: fechas correctas o índices numéricos).")
 
-        elif opc == '6':
-            print("\n--- Consulta de Ficha Técnica ---")
+        elif opc == '5':
             try:
-                dni_consulta = input("Introduce el DNI del cliente: ")
-                if dni_consulta not in clientes:
-                    raise UsuarioNoEncontrado(f"No existe ningún cliente registrado con el DNI {dni_consulta}.")
+                vehiculo_idx = input('Introduce el índice del vehículo a devolver: ')
+                if vehiculo_idx not in flota:
+                    raise ValueError("El vehículo seleccionado no existe en la flota.")
 
-                clientes[dni_consulta].mostrar_ficha_tecnica()
-            except UsuarioNoEncontrado as e:
+                vehiculo_obj = flota[str(vehiculo_idx)]
+
+                km_recorridos = float(input('Introduce los kilómetros recorridos durante el alquiler: '))
+
+                if isinstance(vehiculo_obj, Electrico):
+                    vehiculo_obj = vehiculo_obj + km_recorridos
+
+                # Llamamos a la función devolver de la clase padre Vehiculo
+                vehiculo_obj.devolver(km_recorridos)
+                print(f"Vehículo {vehiculo_obj.matricula} devuelto correctamente.")
+                guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
+
+            except SolapeExcepcion as e:
                 print(f"Error: {e}")
+            except ValueError:
+                print("Error: Por favor, introduce kilómetros numéricos válidos.")
+
+        elif opc == '6':
+            print("\n--- Mi Perfil ---")
+            # Como en el inicio de sesión guardamos el DNI en la variable `cliente_actual_dni`
+            mi_usuario = clientes[dni_cliente_actual]
+            mi_usuario.mostrar_ficha_tecnica()
+            print("\n--- Mis Reservas ---")
+            if not mi_usuario.historial_reservas:
+                print("Todavía no tienes reservas hechas.")
+            else:
+                for id_res in mi_usuario.historial_reservas:
+                    res = reservas[id_res]
+                    print(f"[{res.id_reserva}] Vehículo: {res.vehiculo.matricula} | Fechas: {res.fecha_inicio} a {res.fecha_fin} | Total: {res._Reserva__precio_total}€")
 
         elif opc == '7':
             print("Guardando datos y cerrando el sistema...")
