@@ -19,7 +19,7 @@ class Electrico(Vehiculo):
         else:
             super().alquilar()
 
-    def cargar(self): #funcion para cargar.
+    def cargar(self): #funcion para cargar el coche.
         self.nivel_bateria = 100
         print(f'Vehículo {self.matricula} cargado al 100%')
 

@@ -1,5 +1,5 @@
 from datetime import date
-import os # Asegúrate de importar os arriba
+import os
 from    ENTIDADES.vehiculos import Vehiculo
 class Reserva:
     def __init__(self,id_reserva,vehiculo,dni_cliente,fecha_inicio,fecha_fin,tipo_licencia,destino):

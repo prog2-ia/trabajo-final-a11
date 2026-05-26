@@ -235,7 +235,7 @@ def main():
                     vehiculo_obj = vehiculo_obj + km_recorridos
 
                 # Llamamos a la función devolver de la clase padre Vehiculo
-                vehiculo_obj.devolver(km_recorridos)
+                vehiculo_obj.devolver(0)
                 print(f"Vehículo {vehiculo_obj.matricula} devuelto correctamente.")
                 guardar_datos(flota, clientes, reservas, contador_reservas, contador_flota)
 
@@ -254,11 +254,11 @@ def main():
                 print(f"Recargo de {coste_extra}€ aplicado a la reserva {reserva_afectada.id_reserva}.")
 
         elif opc == '6':
-            print("\n--- Mi Perfil ---")
+            print("Mi Perfil")
             # Como en el inicio de sesión guardamos el DNI en la variable `cliente_actual_dni`
             mi_usuario = clientes[dni_cliente_actual]
             mi_usuario.mostrar_ficha_tecnica()
-            print("\n--- Mis Reservas ---")
+            print("Mis Reservas")
             if not mi_usuario.historial_reservas:
                 print("Todavía no tienes reservas hechas.")
             else:
