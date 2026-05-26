@@ -162,18 +162,18 @@ def main():
                 contador_flota += 1
                 if tipo == '1':
                     matricula = pedir_matricula('Introduce la matrícula del vehículo: ')
-                    num_plazas = pedir_entero('Introduce el número de plazas')
+                    num_plazas = pedir_entero('Introduce el número de plazas: ')
                     flota[str(contador_flota)] = Turismo(matricula, 50, num_plazas,True)
                     print(f"Turismo con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
                 elif tipo == '3':
                     matricula = pedir_matricula('Introduce la matrícula del vehículo: ')
-                    num_plazas = pedir_entero('Introduce el número de plazas')
-                    carga = pedir_entero('Introduce la carga de la Furgoneta:')
+                    num_plazas = pedir_entero('Introduce el número de plazas: ')
+                    carga = pedir_entero('Introduce la carga de la Furgoneta: ')
                     flota[str(contador_flota)] = Furgoneta(matricula, 50,carga, num_plazas,True)
                     print(f"Furgoneta con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
                 elif tipo == '2':
                     matricula = pedir_matricula('Introduce la matrícula del vehículo: ')
-                    num_plazas = pedir_entero('Introduce el número de plazas')
+                    num_plazas = pedir_entero('Introduce el número de plazas: ')
                     autonomia_maxima = pedir_entero('Introduce la autonomía máxima: ')
                     flota[str(contador_flota)] = Electrico(matricula, 50, 100, autonomia_maxima, num_plazas,True)
                     print(f"Eléctrico con matrícula {matricula} añadido a la flota correctamente con ID {contador_flota}")
@@ -200,7 +200,7 @@ def main():
                         raise FechasInvalidasExcepcion("La fecha de inicio no puede ser igual o posterior a la de fin.")
 
                     tipo_licencia = input('Introduce el tipo de licencia: ')
-                    destino = input('Introduce el destino')
+                    destino = input('Introduce el destino: ')
                     # Extraemos el objeto vehículo y lo intentamos alquilar
                     vehiculo_obj = flota[str(vehiculo)]
 
